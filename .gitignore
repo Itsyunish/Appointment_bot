@@ -1,0 +1,12 @@
+# Virtual environment
+myenv/
+
+# Environment variables
+.env
+
+# Python cache(python compiled files)
+__pycache__/
+*.pyc
+
+# Generated data
+bookings.csv
