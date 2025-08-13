@@ -9,7 +9,6 @@ import os
 
 # get api
 load_dotenv()
-from config import get_api_key
 
 try:
     api_key = get_api_key()
