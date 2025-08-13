@@ -19,7 +19,7 @@ A smart, focused chatbot built with **LangChain**, **Google Gemini**, and **Stre
 
 ## 🛠️ Tech Stack
 
-- **LLM**: Google Gemini (`gemini-1.5-flash`)
+- **LLM**: Google Gemini (`gemini-2.5-flash`)
 - **Framework**: Streamlit (UI)
 - **LangChain**: Agents, RAG, tools, prompts
 - **Vector Store**: FAISS (in-memory) 
