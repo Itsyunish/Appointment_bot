@@ -8,5 +8,5 @@ myenv/
 __pycache__/
 *.pyc
 
-# Generated data
+# data
 bookings.csv
