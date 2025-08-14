@@ -2,7 +2,6 @@
 langchain==0.3.27
 langchain-community==0.3.27
 langchain-google-genai==2.1.8
-chromadb==1.0.15
 pypdf==5.9.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.1
