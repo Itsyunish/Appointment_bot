@@ -40,7 +40,7 @@ def check_availability(date: str) -> str:
         return "Could not understand the date. Try 'tomorrow' or 'sunday'."
     global booking_state
     booking_state.date = iso_date
-    return f"✅ {iso_date} works. What time? (e.g., 3 PM, 12 noon)"
+    return f"{iso_date} works. What time? (e.g., 3 PM, 12 noon)"
 
 def check_time_availability(time: str) -> str:
     parsed_time = parse_time(time)
@@ -72,13 +72,13 @@ def collect_phone(phone: str) -> str:
     global booking_state
     cleaned = re.sub(r"[^+\d]", "", phone)
     if not re.fullmatch(r"\+?[\d]{10,15}", cleaned):
-        return "❌ Invalid phone. Use 10-15 digits (e.g., +1234567890)."
+        return "Invalid phone. Use 10-15 digits (e.g., +1234567890)."
     booking_state.phone = cleaned
     try:
         save_booking_to_csv(booking_state)
         msg = (
-            f"✅ Booked for {booking_state.name} on {booking_state.date} at {booking_state.time}!\n"
-            f"📞 {booking_state.phone} | 📧 {booking_state.email}"
+            f"Booked for {booking_state.name} on {booking_state.date} at {booking_state.time}!\n"
+            f"{booking_state.phone} | 📧 {booking_state.email}"
         )
     except Exception as e:
         msg = f"Failed to save booking: {str(e)}"
