@@ -103,12 +103,12 @@ tools = [
     ),
     StructuredTool.from_function(
         func=process_date_input, 
-        name="CheckAvailability", 
+        name="process_date_input", 
         description="Process user date input"
     ),
     StructuredTool.from_function(
         func=process_time_input, 
-        name="CheckTimeAvailability", 
+        name="process_time_input", 
         description="Process user time input"
     ),
     StructuredTool.from_function(
