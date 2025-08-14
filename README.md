@@ -21,5 +21,7 @@ A smart, focused chatbot built with **LangChain**, **Google Gemini**, and **Stre
 
 - **LLM**: Google Gemini (`gemini-1.5-flash`)
 - **Framework**: Streamlit (UI)
+- **booking**: stored in csv file 
 - **LangChain**: Agents, RAG, tools, prompts
-- **Vector Store**: FAISS 
+- **Vector Store**: FAISS
+
