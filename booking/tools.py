@@ -7,13 +7,14 @@ from config import TIMEZONE
 from booking.state import BookingState
 from utils.csv_handler import save_booking_to_csv
 
-
 booking_state = BookingState()
 
+# Step 1: Get current datetime
 def get_current_datetime() -> str:
     now = datetime.now(pytz.UTC).astimezone(pytz.timezone(TIMEZONE))
     return f"🕰️ Current: {now.strftime('%Y-%m-%d %H:%M %Z')}"
 
+# Helper: Parse date strings
 def parse_date(date_str: str) -> str:
     parsed = dateparser.parse(
         date_str,
@@ -21,6 +22,7 @@ def parse_date(date_str: str) -> str:
     )
     return parsed.strftime("%Y-%m-%d") if parsed else None
 
+# Helper: Parse time strings
 def parse_time(time_str: str) -> str:
     time_str = time_str.lower().strip()
     if "noon" in time_str: return "12:00"
@@ -34,7 +36,8 @@ def parse_time(time_str: str) -> str:
         elif period == "am" and hour == 12: hour = 0
     return f"{hour:02d}:{minute:02d}"
 
-def check_availability(date: str) -> str:
+# Step 2: Process user date input
+def process_date_input(date: str) -> str:
     iso_date = parse_date(date)
     if not iso_date:
         return "Could not understand the date. Try 'tomorrow' or 'sunday'."
@@ -42,7 +45,8 @@ def check_availability(date: str) -> str:
     booking_state.date = iso_date
     return f"{iso_date} works. What time? (e.g., 3 PM, 12 noon)"
 
-def check_time_availability(time: str) -> str:
+# Step 3: Process user time input
+def process_time_input(time: str) -> str:
     parsed_time = parse_time(time)
     if not parsed_time:
         return "Could not understand the time. Try '3 PM', '12 noon', or '15:00'."
@@ -50,6 +54,7 @@ def check_time_availability(time: str) -> str:
     booking_state.time = parsed_time
     return "Got it! What's your full name?"
 
+# Step 4: Collect full name
 def collect_name(name: str) -> str:
     if len(name.strip()) < 2:
         return "Please enter a valid full name."
@@ -57,10 +62,12 @@ def collect_name(name: str) -> str:
     booking_state.name = name.strip()
     return "Got it! What's your email address?"
 
+# Helper: Validate email format
 def is_valid_email(email: str) -> bool:
     regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(regex, email) is not None
 
+# Step 5: Collect email
 def collect_email(email: str) -> str:
     if not is_valid_email(email):
         return "Invalid email format. Example: name@example.com"
@@ -68,6 +75,7 @@ def collect_email(email: str) -> str:
     booking_state.email = email
     return "Thanks! What's your phone number? (e.g., +977-98XXXXXXX)"
 
+# Step 6: Collect phone and finalize booking
 def collect_phone(phone: str) -> str:
     global booking_state
     cleaned = re.sub(r"[^+\d]", "", phone)
@@ -82,38 +90,40 @@ def collect_phone(phone: str) -> str:
         )
     except Exception as e:
         msg = f"Failed to save booking: {str(e)}"
-    # Reset
+    # Reset for next booking
     booking_state = BookingState()
     return msg
 
-# List of tools
+# List of structured tools for LangChain agent
 tools = [
     StructuredTool.from_function(
         func=get_current_datetime, 
         name="GetCurrentDateTime", 
-        description="Get current time"),
-    
+        description="Get current time"
+    ),
     StructuredTool.from_function(
-        func=check_availability, 
+        func=process_date_input, 
         name="CheckAvailability", 
-        description="Check date"),
-    
+        description="Process user date input"
+    ),
     StructuredTool.from_function(
-        func=check_time_availability, 
+        func=process_time_input, 
         name="CheckTimeAvailability", 
-        description="Check time"),
-    
+        description="Process user time input"
+    ),
     StructuredTool.from_function(
         func=collect_name, 
         name="CollectName", 
-        description="Collect name"),
-    
+        description="Collect full name"
+    ),
     StructuredTool.from_function(
-        func=collect_email, name="CollectEmail", 
-        description="Collect email"),
-    
+        func=collect_email, 
+        name="CollectEmail", 
+        description="Collect email"
+    ),
     StructuredTool.from_function(
         func=collect_phone, 
         name="CollectPhone", 
-        description="Save appointment"),
+        description="Save appointment and finalize booking"
+    ),
 ]
