@@ -6,7 +6,6 @@ from langchain_core.messages import HumanMessage, AIMessage
 import sys
 import os
 
-
 # get api
 load_dotenv()
 
@@ -20,15 +19,10 @@ except ValueError:
         st.stop()
     os.environ["GOOGLE_API_KEY"] = api_key
 
-
-
-# Async fix for Windows
 import sys
 import asyncio
 if sys.platform.startswith("win"):
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-
-
 
 # streamlit UI
 st.title("📄 Simple Chatbot with Booking")
