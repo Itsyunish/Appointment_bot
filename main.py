@@ -31,7 +31,6 @@ if sys.platform.startswith("win"):
 
 
 # streamlit UI
-st.set_page_config(page_title="🤖 Simple Chatbot", layout="wide")
 st.title("📄 Simple Chatbot with Booking")
 
 # Sidebar
