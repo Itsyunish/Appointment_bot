@@ -44,7 +44,7 @@ Respond only with:
 
 
     prompt = ChatPromptTemplate.from_messages([
-        SystemMessagePromptTemplate.from_template(system_prompt.strip()),
+        ("system", "system_prompt"),
         MessagesPlaceholder("chat_history"),
         ("human", "{input}"),
         MessagesPlaceholder("agent_scratchpad"),
