@@ -65,7 +65,6 @@ for msg in st.session_state.messages:
         st.markdown(msg["content"])
 
 
-# Handle user input
 if prompt := st.chat_input("Ask or say 'book appointment'..."):
     # Add user message to chat
     st.session_state.messages.append({"role": "user", "content": prompt})
@@ -86,7 +85,7 @@ if prompt := st.chat_input("Ask or say 'book appointment'..."):
                 "- 🗓️ Say _'book appointment'_ to schedule a call"
             )
 
-        # 2. Handle Cancellation (only if in booking flow)
+        
         elif st.session_state.get("in_booking", False) and any(
             cancel_word in lower_prompt for cancel_word in ["cancel", "never mind", "forget it", "stop", "exit", "no thanks"]
         ):
